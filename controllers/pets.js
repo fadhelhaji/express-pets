@@ -27,4 +27,21 @@ router.get('/', async (req, res)=>{
     }
 })
 
+router.get('/:id', async (req,res)=>{
+    try {
+        const petDetails = await Pet.findById(req.params.id)
+
+        if(!petDetails){
+            res.status(404).json({message: "Pet not found:("})
+        } else {
+            res.status(200).json({message: "Pet found and here are the details",
+            pet: petDetails
+        })
+        }
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({message: "Pet not found:("})
+    }
+})
+
 module.exports = router
