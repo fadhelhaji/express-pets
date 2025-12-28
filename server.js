@@ -1,19 +1,32 @@
-const dotenv = require('dotenv');
-dotenv.config();
+require('dotenv').config();
 
 const mongoose = require('mongoose');
 mongoose.connect(process.env.MONGODB_URI);
-mongoose.Connection.on('connected'), ()=>{
-    console.log('Connected to DB');
-}
+
+mongoose.connection.on('connected', () => {
+  console.log('Connected to DB');
+});
+
+mongoose.connection.on('error', (error) => {
+  console.error('MongoDB connection error:', error);
+});
 
 const express = require('express');
 const app = express();
-app.use(express.json)
+
+app.use(express.json());
+
+const PetsCtrl = require('./controllers/pets')
 
 const morgan = require('morgan');
 app.use(morgan('dev'));
 
-app.listen(3000, ()=>{
-    console.log('Express is ready'); 
-})
+
+
+app.use('/pets', PetsCtrl)
+
+
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`Express is ready on port ${PORT}`);
+});
