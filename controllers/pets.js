@@ -59,11 +59,11 @@ router.delete('/:id', async (req, res)=>{
 
 router.put('/:id', async (req, res)=>{
     try {
-        const updatedPet = await Pet.findByIdAndUpdate(req.params.id, req.body)
+        const updatedPet = await Pet.findByIdAndUpdate(req.params.id, req.body, {new: true})
         if(!updatedPet){
             res.status(404).json({message: "Pet not found"})
         } else {
-            res.status(200).json({message: "Pet succesfully updated"})
+            res.status(200).json({message: "Pet succesfully updated", pet: updatedPet})
         }
     } catch (error) {
         console.log(error);
