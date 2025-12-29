@@ -47,7 +47,11 @@ router.get('/:id', async (req,res)=>{
 router.delete('/:id', async (req, res)=>{
     try {
         const deletePet = await Pet.findByIdAndDelete(req.params.id)
-        res.status(200).json({message: "Pet deleted"})
+        if (deletePet) {
+            res.status(200).json({message: "Pet deleted"})
+        } else {
+            res.status(404).json({message: "Pet not found"})
+        }
     } catch (error) {
         res.status(500).json({message: "Pet not deleted:)"})
     }
