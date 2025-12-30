@@ -14,6 +14,9 @@ mongoose.connection.on('error', (error) => {
 const express = require('express');
 const app = express();
 
+const cors = require('cors')
+app.use(cors())
+
 app.use(express.json());
 
 const PetsCtrl = require('./controllers/pets')
